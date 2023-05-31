@@ -19,6 +19,7 @@ spec:
             - containerPort: 3306
         - name: fastapi-container
           image: fastapi:v1
+          imagePullPolicy: Never
           ports:
             - containerPort: 8000
           env:
