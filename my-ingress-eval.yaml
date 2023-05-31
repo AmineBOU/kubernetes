@@ -3,14 +3,8 @@ kind: Ingress
 metadata:
   name: mysql-fastapi-ingress
 spec:
-  rules:
-    - host: localhost
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: mysql-fastapi-service
-                port:
-                  number: 80
+  defaultBackend:
+    service:
+      name: mysql-fastapi-service
+      port:
+        number: 80
