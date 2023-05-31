@@ -1,20 +1,16 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from sqlalchemy.engine import create_engine
+from sqlalchemy import text
 import os
 
 # creating a FastAPI server
-server = FastAPI(title='Eval API')
+server = FastAPI(title='User API')
 
 # creating a connection to the database
-mysql_url = '172.17.0.2'
+mysql_url = 'mysql-container:3306'
 mysql_user = 'root'
-try:
-    mysql_password = os.environ.get('DB_PASSWORD')
-    exit()
-except:
-    print("Database Password not setup in Env variable ...") 
-
+mysql_password = os.environ.get('MYSQL_ROOT_PASSWORD') #'datascientest1234'  
 database_name = 'Main'
 
 # recreating the URL connection
@@ -46,7 +42,7 @@ async def get_status():
 @server.get('/users')
 async def get_users():
     with mysql_engine.connect() as connection:
-        results = connection.execute('SELECT * FROM Users;')
+        results = connection.execute(text("SELECT * FROM Users;"))
 
     results = [
         User(
@@ -61,7 +57,7 @@ async def get_users():
 async def get_user(user_id):
     with mysql_engine.connect() as connection:
         results = connection.execute(
-            'SELECT * FROM Users WHERE Users.id = {};'.format(user_id))
+            text('SELECT * FROM Users WHERE Users.id = {};'.format(user_id)))
 
     results = [
         User(
@@ -76,5 +72,3 @@ async def get_user(user_id):
             detail='Unknown User ID')
     else:
         return results[0]
-
-
