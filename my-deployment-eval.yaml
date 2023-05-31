@@ -27,5 +27,3 @@ spec:
               secretKeyRef:
                 name: my-eval-secret
                 key: mysql-root-password
-
-      network: my-network
