@@ -26,5 +26,5 @@ spec:
           - name: MYSQL_ROOT_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: my-eval-secret
+                name: mysql-fastapi-secret
                 key: mysql-root-password
